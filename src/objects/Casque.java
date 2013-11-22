@@ -1,4 +1,4 @@
-package objets;
+package objects;
 
 public class Casque extends Materiel {
 	

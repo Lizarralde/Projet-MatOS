@@ -1,10 +1,10 @@
-package objets;
+package objects;
 
 public class MatOS extends Materiel {
 	private String	typeOS;
 	
-	public MatOS(String nom, String descriptif, String typeOS) {
-		super(nom, descriptif);
+	public MatOS(String name, String description, String typeOS) {
+		super(name, description);
 		this.typeOS = typeOS;
 		// TODO Auto-generated constructor stub
 	}
