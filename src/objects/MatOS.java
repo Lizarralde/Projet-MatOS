@@ -1,6 +1,6 @@
 package objects;
 
-public class MatOS extends Materiel {
+public class MatOS extends Material {
 	private String	typeOS;
 	
 	public MatOS(String name, String description, String typeOS) {

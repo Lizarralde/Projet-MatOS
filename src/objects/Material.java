@@ -1,24 +1,24 @@
 package objects;
 
-public class Materiel {
+public class Material {
 	private String	name, description;
 	private int		empruntTimeMax, empruntTime;
 
-	public Materiel(String name, String description) {
+	public Material(String name, String description) {
 		this.name = name;
 		this.description = description;
 		this.empruntTime = 7;
 		this.empruntTimeMax = 200;
 	}
 
-	public Materiel(String name, String description, int dureeUsuelle) {
+	public Material(String name, String description, int dureeUsuelle) {
 		this.name = name;
 		this.description = description;
 		this.empruntTime = dureeUsuelle;
 		this.empruntTimeMax = 200;
 	}
 
-	public Materiel(String name, String description, int dureeUsuelle,
+	public Material(String name, String description, int dureeUsuelle,
 			int dureeMax) {
 		this.name = name;
 		this.description = description;

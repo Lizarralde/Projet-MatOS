@@ -2,16 +2,16 @@ package management;
 
 import java.util.GregorianCalendar;
 
-import objects.Materiel;
+import objects.Material;
 import users.User;
 
 public class Reservation {
 	private User		user;
-	private Materiel	materiel;
+	private Material	materiel;
 	private GregorianCalendar	startDate, endDate;
 	private int					quantity;
 
-	public Reservation(User user, Materiel mat, int quantity,
+	public Reservation(User user, Material mat, int quantity,
 			GregorianCalendar start, GregorianCalendar end) {
 		this.setUser(user);
 		this.setMateriel(mat);
@@ -28,11 +28,11 @@ public class Reservation {
 		this.user = user;
 	}
 
-	public Materiel getMateriel() {
+	public Material getMateriel() {
 		return materiel;
 	}
 
-	public void setMateriel(Materiel materiel) {
+	public void setMateriel(Material materiel) {
 		this.materiel = materiel;
 	}
 
