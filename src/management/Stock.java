@@ -44,4 +44,28 @@ public class Stock {
 		}
 		return true;
 	}
+
+	/**
+	 * This method looks if a list of material is available for a given period.
+	 * 
+	 * @param materialList
+	 *            A list of material
+	 * @param startDate
+	 *            the beginning of the emprunt period
+	 * @param endDate
+	 *            the end of the emprunt period
+	 * @return
+	 */
+	public boolean isAvailableList(List<Material> materialList,
+			GregorianCalendar startDate, GregorianCalendar endDate) {
+		for (Material m : materialList) {
+			if (!isAvailable(m, startDate, endDate)) {
+				System.out.println("the material " + m.getName()
+						+ " is not available from the " + startDate
+						+ " to the " + endDate + ".");
+				return false;
+			}
+		}
+		return true;
+	}
 }
