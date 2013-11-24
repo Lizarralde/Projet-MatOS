@@ -1,5 +1,10 @@
 package objects;
 
+/**
+ * 
+ * @author Fabien PINEL
+ * 
+ */
 public class Material {
 	private String	name, description;
 	private int		empruntTimeMax, empruntTime;
