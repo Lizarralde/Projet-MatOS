@@ -12,20 +12,20 @@ public class Student extends User {
      * 
      * @param name
      * @param forname
-     * @param field
+     * @param year
      */
-    public Student(String name, String forname, String field) {
+    public Student(String name, String forname, String year) {
 
         super(name, forname);
 
-        this.year = field;
+        this.year = year;
     }
 
     /**
      * 
      * @return
      */
-    public String getField() {
+    public String getYear() {
 
         return year;
     }
@@ -34,8 +34,8 @@ public class Student extends User {
      * 
      * @param field
      */
-    public void setField(String field) {
+    public void setYear(String year) {
 
-        this.year = field;
+        this.year = year;
     }
 }
