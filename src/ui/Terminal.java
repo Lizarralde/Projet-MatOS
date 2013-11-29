@@ -160,13 +160,21 @@ public class Terminal {
 		System.out
 				.println("Enter the last day you want to have it : (dd/mm/yyyy)");
 		date2 = parser.getADate();
-
-		if (stock.isAvailable(mat.get(Integer.parseInt(reponse)).getMat(),
-				quantity, date1, date2)) {
+		if (date1.compareTo(date2) > 0) {
+			System.out
+					.println("La date de début est après la date de fin.\nInversion des 2.");
+			GregorianCalendar date = date1;
+			date1 = date2;
+			date2 = date;
+		}
+		if (stock.isAvailable(mat.get(Integer.parseInt(reponse)), quantity,
+				date1, date2)) {
 			System.out.println("L'objet est disponible.");
 			// faire la réservation (ajout à la liste des reservation
 		} else {
-			// indisponible
+			System.out
+					.println("L'objet demandé n'est malheureusement pas disponible.");
+			// indisponible -- retour au prompt
 		}
 	}
 }

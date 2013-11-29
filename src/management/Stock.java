@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import objects.Material;
 import objects.MaterialQuantity;
 
 public class Stock {
@@ -46,22 +45,17 @@ public class Stock {
 	 * @return true if the material is available during this period false in
 	 *         other cases
 	 */
-	public boolean isAvailable(Material mat, int quantity,
+	public boolean isAvailable(MaterialQuantity mat, int quantity,
 			GregorianCalendar startDate, GregorianCalendar endDate) {
 		GregorianCalendar day = startDate;
-		int quantityAvailable;
-		int i = 0;
-		while (!materialStock.get(i).getMat().equals(mat)) {
-			i++;
-		}
-		quantityAvailable = materialStock.get(i).getQuantity();
+		int quantityAvailable = mat.getQuantity();
 		if (quantity > quantityAvailable) {
 			System.out.println("Nous ne possédons pas autant de "
-					+ mat.getName() + ".");
+					+ mat.getMat().getName() + ".");
 			return false;
 		}
 		while (day.compareTo(endDate) <= 0) {
-			if (!isAvailableForThisDay(mat, quantity, day, quantityAvailable)) {
+			if (!isAvailableForThisDay(mat, quantity, day)) {
 				return false;
 			}
 			day.add(day.DATE, 1);
@@ -81,10 +75,11 @@ public class Stock {
 	 *            the end of the emprunt period
 	 * @return
 	 */
-	public boolean isAvailableForThisDay(Material mat, int quantity,
-			GregorianCalendar day, int quantityAvailable) {
+	public boolean isAvailableForThisDay(MaterialQuantity mat, int quantity,
+			GregorianCalendar day) {
+		int quantityAvailable = mat.getQuantity();
 		for (Reservation reserv : reservList) {
-			if (reserv.getMateriel().equals(mat)) {
+			if (reserv.getMateriel().equals(mat.getMat())) {
 				if (day.compareTo(reserv.getStartDate()) >= 0
 						&& day.compareTo(reserv.getEndDate()) <= 0) {
 					// day is in the emprunt time
