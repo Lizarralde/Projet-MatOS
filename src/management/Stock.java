@@ -5,13 +5,32 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import objects.Material;
+import objects.MaterialQuantity;
 
 public class Stock {
-	List<Reservation>	reservList;
+	private List<Reservation>	reservList;
 
-	public Stock() {
+	public List<Reservation> getReservList() {
+		return reservList;
+	}
+
+	public void setReservList(List<Reservation> reservList) {
+		this.reservList = reservList;
+	}
+
+	public List<MaterialQuantity> getMaterialStock() {
+		return materialStock;
+	}
+
+	public void setMaterialStock(List<MaterialQuantity> materialStock) {
+		this.materialStock = materialStock;
+	}
+
+	private List<MaterialQuantity>	materialStock;
+
+	public Stock(List<MaterialQuantity> materialStock) {
 		this.reservList = new ArrayList<Reservation>();
-
+		this.materialStock = materialStock;
 	}
 
 	/**
@@ -27,26 +46,32 @@ public class Stock {
 	 * @return true if the material is available during this period false in
 	 *         other cases
 	 */
-	public boolean isAvailable(Material mat, GregorianCalendar startDate,
-			GregorianCalendar endDate) {
-		for (Reservation reserv : reservList) {
-			int compare = reserv.getEndDate().compareTo(startDate);
-			if (compare == 0) {
-				// that means that endDate is before startDate
+	public boolean isAvailable(Material mat, int quantity,
+			GregorianCalendar startDate, GregorianCalendar endDate) {
+		GregorianCalendar day = startDate;
+		int quantityAvailable;
+		int i = 0;
+		while (!materialStock.get(i).getMat().equals(mat)) {
+			i++;
+		}
+		quantityAvailable = materialStock.get(i).getQuantity();
+		if (quantity > quantityAvailable) {
+			System.out.println("Nous ne possédons pas autant de "
+					+ mat.getName() + ".");
+			return false;
+		}
+		while (day.compareTo(endDate) <= 0) {
+			if (!isAvailableForThisDay(mat, quantity, day, quantityAvailable)) {
 				return false;
-			} else if (compare > 0) {
-				// that means that endDate is after startDate
-				if (reserv.getStartDate().compareTo(endDate) < 0) {
-					// here the dates are crossing each other
-					return false;
-				}
 			}
+			day.add(day.DATE, 1);
 		}
 		return true;
 	}
 
 	/**
-	 * This method looks if a list of material is available for a given period.
+	 * This method looks if a certain quantity of material is available for a
+	 * given date
 	 * 
 	 * @param materialList
 	 *            A list of material
@@ -56,16 +81,17 @@ public class Stock {
 	 *            the end of the emprunt period
 	 * @return
 	 */
-	public boolean isAvailableList(List<Material> materialList,
-			GregorianCalendar startDate, GregorianCalendar endDate) {
-		for (Material m : materialList) {
-			if (!isAvailable(m, startDate, endDate)) {
-				System.out.println("the material " + m.getName()
-						+ " is not available from the " + startDate
-						+ " to the " + endDate + ".");
-				return false;
+	public boolean isAvailableForThisDay(Material mat, int quantity,
+			GregorianCalendar day, int quantityAvailable) {
+		for (Reservation reserv : reservList) {
+			if (reserv.getMateriel().equals(mat)) {
+				if (day.compareTo(reserv.getStartDate()) >= 0
+						&& day.compareTo(reserv.getEndDate()) <= 0) {
+					// day is in the emprunt time
+					quantityAvailable -= reserv.getQuantity();
+				}
 			}
 		}
-		return true;
+		return (quantityAvailable >= quantity);
 	}
 }

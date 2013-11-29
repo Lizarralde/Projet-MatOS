@@ -4,9 +4,8 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import management.Stock;
-import objects.Material;
+import objects.MaterialQuantity;
 import users.User;
-import data.Data;
 
 /**
  * @author Dorian LIZARRALDE
@@ -14,10 +13,9 @@ import data.Data;
  */
 public class Terminal {
 
-	private Parser			parser;
-	private User			user;
-	private Stock			stock;
-	private List<Material>	mat;
+	private Parser	parser;
+	private User	user;
+	private Stock	stock;
 
 	/**
      * 
@@ -30,8 +28,8 @@ public class Terminal {
 	/**
      * 
      */
-	public void start(List<User> users) {
-
+	public void start(List<User> users, List<MaterialQuantity> mat) {
+		stock = new Stock(mat);
 		welcome();
 
 		if (getUser(users)) {
@@ -133,19 +131,28 @@ public class Terminal {
 		String reponse;
 		GregorianCalendar date1;
 		GregorianCalendar date2;
+		int quantity;
+		List<MaterialQuantity> mat = stock.getMaterialStock();
 		// Load the materials
-		mat = Data.loadMaterialList();
+
 		// Display the list
 		System.out
 				.println("Saisissez le numéro de l'objet que vous voulez emprunter.");
 		for (int i = 0; i < mat.size(); i++) {
-			System.out.println(i + ". " + mat.get(i).getName() + " ("
-					+ mat.get(i).getDescription() + ")");
+			System.out.println(i + ". " + mat.get(i).getMat().getName() + " ("
+					+ mat.get(i).getMat().getDescription() + ") - "
+					+ mat.get(i).getQuantity());
+			i++;
 		}
 		reponse = parser.getInput().get(0);
 		if (Integer.parseInt(reponse) < 0
 				|| Integer.parseInt(reponse) > mat.size()) {
-			// reponse incorrect, exception ??
+			// response incorrect, exception ??
+		}
+		System.out.println("Enter the quantity you want :");
+		quantity = Integer.parseInt(parser.getInput().get(0));
+		if (quantity < 0) {
+			// incorrect, exception ?
 		}
 		System.out
 				.println("Enter the first day you want to have it : (dd/mm/yyyy)");
@@ -154,7 +161,9 @@ public class Terminal {
 				.println("Enter the last day you want to have it : (dd/mm/yyyy)");
 		date2 = parser.getADate();
 
-		if (stock.isAvailable(mat.get(Integer.parseInt(reponse)), date1, date2)) {
+		if (stock.isAvailable(mat.get(Integer.parseInt(reponse)).getMat(),
+				quantity, date1, date2)) {
+			System.out.println("L'objet est disponible.");
 			// faire la réservation (ajout à la liste des reservation
 		} else {
 			// indisponible

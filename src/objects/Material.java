@@ -7,7 +7,12 @@ package objects;
  */
 public class Material {
 	private String	name, description;
-	private int		empruntTimeMax, empruntTime;
+
+	public boolean equals(Material mat) {
+		return (mat.getName().equals(this.getName()));
+	}
+
+	private int	empruntTimeMax, empruntTime;
 
 	public Material(String name, String description) {
 		this.name = name;

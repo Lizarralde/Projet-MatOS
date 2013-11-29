@@ -1,5 +1,5 @@
-import data.Data;
 import ui.Terminal;
+import data.Data;
 
 /**
  * @author Dorian LIZARRALDE
@@ -7,12 +7,11 @@ import ui.Terminal;
  */
 public class Program {
 
-    /**
-     * @param args
-     */
-    public static void main(String[] args) {
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
 
-        new Terminal().start(Data.loadUsersList());
-    }
-
+		new Terminal().start(Data.loadUsersList(), Data.loadMaterialList());
+	}
 }
