@@ -49,11 +49,7 @@ public class Stock {
 			GregorianCalendar startDate, GregorianCalendar endDate) {
 		GregorianCalendar day = startDate;
 		int quantityAvailable = mat.getQuantity();
-		if (quantity > quantityAvailable) {
-			System.out.println("Nous ne possédons pas autant de "
-					+ mat.getMat().getName() + ".");
-			return false;
-		}
+
 		while (day.compareTo(endDate) <= 0) {
 			if (!isAvailableForThisDay(mat, quantity, day)) {
 				return false;

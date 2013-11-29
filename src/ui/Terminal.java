@@ -133,7 +133,7 @@ public class Terminal {
 		GregorianCalendar date2;
 		int quantity;
 		List<MaterialQuantity> mat = stock.getMaterialStock();
-		// Load the materials
+		// Load the materials from the stock
 
 		// Display the list
 		System.out
@@ -148,12 +148,16 @@ public class Terminal {
 		if (Integer.parseInt(reponse) < 0
 				|| Integer.parseInt(reponse) > mat.size()) {
 			// response incorrect, exception ??
+			System.out.println("Incorrect. This number isn't correct.");
 		}
 		System.out.println("Enter the quantity you want :");
 		quantity = Integer.parseInt(parser.getInput().get(0));
-		if (quantity < 0) {
+		if (quantity < 0
+				|| quantity > mat.get(Integer.parseInt(reponse)).getQuantity()) {
+			System.out.println("Incorrect");
 			// incorrect, exception ?
 		}
+
 		System.out
 				.println("Enter the first day you want to have it : (dd/mm/yyyy)");
 		date1 = parser.getADate();
