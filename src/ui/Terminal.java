@@ -5,6 +5,7 @@ import java.util.List;
 
 import management.Stock;
 import objects.MaterialQuantity;
+import users.Manager;
 import users.User;
 
 /**
@@ -16,6 +17,7 @@ public class Terminal {
 	private Parser	parser;
 	private User	user;
 	private Stock	stock;
+	private Manager	man;
 
 	/**
      * 
@@ -30,6 +32,7 @@ public class Terminal {
      */
 	public void start(List<User> users, List<MaterialQuantity> mat) {
 		stock = new Stock(mat);
+		man = new Manager(stock);
 		welcome();
 
 		if (getUser(users)) {
@@ -137,7 +140,7 @@ public class Terminal {
 
 		// Display the list
 		System.out
-				.println("Saisissez le numéro de l'objet que vous voulez emprunter.");
+				.println("Saisissez le numéro de l'objet que vous voulez emprunter:");
 		for (int i = 0; i < mat.size(); i++) {
 			System.out.println(i + ". " + mat.get(i).getMat().getName() + " ("
 					+ mat.get(i).getMat().getDescription() + ") - "
@@ -171,7 +174,7 @@ public class Terminal {
 			date1 = date2;
 			date2 = date;
 		}
-		if (stock.isAvailable(mat.get(Integer.parseInt(reponse)), quantity,
+		if (man.isAvailable(mat.get(Integer.parseInt(reponse)), quantity,
 				date1, date2)) {
 			System.out.println("L'objet est disponible.");
 			// faire la réservation (ajout à la liste des reservation
