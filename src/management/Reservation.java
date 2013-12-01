@@ -2,20 +2,18 @@ package management;
 
 import java.util.GregorianCalendar;
 
-import objects.Material;
+import objects.MaterialQuantity;
 import users.User;
 
 public class Reservation {
-	private User		user;
-	private Material	materiel;
+	private User				user;
+	private MaterialQuantity	materialQuant;
 	private GregorianCalendar	startDate, endDate;
-	private int					quantity;
 
-	public Reservation(User user, Material mat, int quantity,
+	public Reservation(User user, MaterialQuantity materialQuant,
 			GregorianCalendar start, GregorianCalendar end) {
 		this.setUser(user);
-		this.setMateriel(mat);
-		this.setQuantity(quantity);
+		this.setMaterialQuantity(materialQuant);
 		this.setStartDate(start);
 		this.setEndDate(end);
 	}
@@ -28,12 +26,12 @@ public class Reservation {
 		this.user = user;
 	}
 
-	public Material getMateriel() {
-		return materiel;
+	public MaterialQuantity getMaterialQuantity() {
+		return materialQuant;
 	}
 
-	public void setMateriel(Material materiel) {
-		this.materiel = materiel;
+	public void setMaterialQuantity(MaterialQuantity materialQuant) {
+		this.materialQuant = materialQuant;
 	}
 
 	public GregorianCalendar getStartDate() {
@@ -52,11 +50,18 @@ public class Reservation {
 		this.endDate = endDate;
 	}
 
-	public int getQuantity() {
-		return quantity;
+	public String toString() {
+		String strDate1 = startDate.get(GregorianCalendar.DAY_OF_MONTH) + "/"
+				+ startDate.get(GregorianCalendar.MONTH) + "/"
+				+ startDate.get(GregorianCalendar.YEAR);
+		String strDate2 = endDate.get(GregorianCalendar.DAY_OF_MONTH) + "/"
+				+ endDate.get(GregorianCalendar.MONTH) + "/"
+				+ endDate.get(GregorianCalendar.YEAR);
+		return ("User: " + user.getForname() + " " + user.getName()
+				+ "\t Object: " + materialQuant.getMat().getName()
+				+ "\tQuantity: " + materialQuant.getQuantity()
+				+ "\tDate d'emprunt: " + strDate1 + "\tDate de retour: "
+				+ strDate2 + ".");
 	}
 
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
-	}
 }

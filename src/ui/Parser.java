@@ -50,8 +50,8 @@ public class Parser {
 	public GregorianCalendar getADate() {
 		String reponse = this.getInput().get(0);
 		int year = Integer.parseInt(reponse.substring(6, reponse.length()));
-		int month = Integer.parseInt(reponse.substring(3, 4));
-		int day = Integer.parseInt(reponse.substring(0, 1));
+		int month = Integer.parseInt(reponse.substring(3, 5));
+		int day = Integer.parseInt(reponse.substring(0, 2));
 		return new GregorianCalendar(year, month, day);
 	}
 }

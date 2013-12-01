@@ -1,5 +1,6 @@
 package users;
 
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import management.Reservation;
@@ -15,6 +16,12 @@ public class Manager {
 
 	public Manager(Stock stock) {
 		this.stock = stock;
+	}
+
+	public Reservation doReserve(User user, MaterialQuantity mat,
+			GregorianCalendar startDate, GregorianCalendar endDate) {
+		Reservation res = new Reservation(user, mat, startDate, endDate);
+		return res;
 	}
 
 	/**
@@ -38,8 +45,7 @@ public class Manager {
 			if (!isAvailableForThisDay(mat, quantity, day)) {
 				return false;
 			}
-			// Je pense que ça, ça marche pas
-			day.add(day.DAY_OF_YEAR, 1);
+			day.add(Calendar.DAY_OF_YEAR, 1);
 		}
 		return true;
 	}
@@ -61,11 +67,12 @@ public class Manager {
 			GregorianCalendar day) {
 		int quantityAvailable = mat.getQuantity();
 		for (Reservation reserv : stock.getReservList()) {
-			if (reserv.getMateriel().equals(mat.getMat())) {
+			if (reserv.getMaterialQuantity().getMat().equals(mat.getMat())) {
 				if (day.compareTo(reserv.getStartDate()) >= 0
 						&& day.compareTo(reserv.getEndDate()) <= 0) {
 					// day is in the emprunt time
-					quantityAvailable -= reserv.getQuantity();
+					quantityAvailable -= reserv.getMaterialQuantity()
+							.getQuantity();
 				}
 			}
 		}

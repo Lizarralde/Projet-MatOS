@@ -3,6 +3,7 @@ package ui;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import management.Reservation;
 import management.Stock;
 import objects.MaterialQuantity;
 import users.Manager;
@@ -177,6 +178,17 @@ public class Terminal {
 		if (man.isAvailable(mat.get(Integer.parseInt(reponse)), quantity,
 				date1, date2)) {
 			System.out.println("L'objet est disponible.");
+			Reservation res = man.doReserve(user,
+					mat.get(Integer.parseInt(reponse)), date1, date2);
+			if (res == null) {
+				System.out.println("La réservation a échouée.");
+			} else {
+				stock.getReservList().add(res);
+				System.out
+						.println("Reservation effectuée.\nAffichage de la reservation :\n"
+								+ res.toString());
+
+			}
 			// faire la réservation (ajout à la liste des reservation
 		} else {
 			System.out
