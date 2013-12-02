@@ -1,5 +1,6 @@
 package ui;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -11,47 +12,73 @@ import java.util.Scanner;
  */
 public class Parser {
 
-	private Scanner	reader;
+    private Scanner reader;
 
-	/**
+    /**
      * 
      */
-	public Parser() {
+    public Parser() {
 
-		reader = new Scanner(System.in);
-	}
+        reader = new Scanner(System.in);
+    }
 
-	/**
-	 * 
-	 * @return
-	 */
-	public List<String> getInput() {
+    /**
+     * 
+     * @param inputStream
+     */
+    public void setReader(InputStream inputStream) {
 
-		List<String> words = new ArrayList<String>();
+        reader = new Scanner(inputStream);
+    }
 
-		String inputLine;
+    /**
+     * 
+     * @return
+     */
+    public List<String> getInput() {
 
-		System.out.print("> ");
+        List<String> words = new ArrayList<String>();
 
-		inputLine = reader.nextLine();
+        String inputLine;
 
-		Scanner tokenizer = new Scanner(inputLine);
+        System.out.print("> ");
 
-		while (tokenizer.hasNext()) {
+        inputLine = reader.nextLine();
 
-			words.add(tokenizer.next());
-		}
+        Scanner tokenizer = new Scanner(inputLine);
 
-		tokenizer.close();
+        while (tokenizer.hasNext()) {
 
-		return words;
-	}
+            words.add(tokenizer.next());
+        }
 
-	public GregorianCalendar getADate() {
-		String reponse = this.getInput().get(0);
-		int year = Integer.parseInt(reponse.substring(6, reponse.length()));
-		int month = Integer.parseInt(reponse.substring(3, 5));
-		int day = Integer.parseInt(reponse.substring(0, 2));
-		return new GregorianCalendar(year, month, day);
-	}
+        tokenizer.close();
+
+        return words;
+    }
+
+    public GregorianCalendar getADate() {
+
+        List<String> words = getInput();
+
+        if (!words.isEmpty()) {
+
+            String str[] = words.get(0).split("/");
+
+            if (str.length < 3) {
+
+                return null;
+            }
+
+            int year = Integer.parseInt(str[2]);
+
+            int month = Integer.parseInt(str[1]);
+
+            int day = Integer.parseInt(str[0]);
+
+            return new GregorianCalendar(year, month - 1, day);
+        }
+
+        return null;
+    }
 }
