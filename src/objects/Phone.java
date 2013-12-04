@@ -7,7 +7,7 @@ package objects;
  */
 public class Phone extends MatOS {
 
-	public Phone(String name, String description, String typeOS) {
+	public Phone(String name, String description, TypeOS typeOS) {
 		super(name, description, typeOS);
 		// TODO Auto-generated constructor stub
 	}

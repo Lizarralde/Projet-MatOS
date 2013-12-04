@@ -6,19 +6,19 @@ package objects;
  * 
  */
 public class MatOS extends Material {
-	private String	typeOS;
+	private TypeOS	typeOS;
 
-	public MatOS(String name, String description, String typeOS) {
+	public MatOS(String name, String description, TypeOS typeOS) {
 		super(name, description);
 		this.typeOS = typeOS;
 		// TODO Auto-generated constructor stub
 	}
 
-	public String getTypeOS() {
+	public TypeOS getTypeOS() {
 		return typeOS;
 	}
 
-	public void setTypeOS(String typeOS) {
+	public void setTypeOS(TypeOS typeOS) {
 		this.typeOS = typeOS;
 	}
 
