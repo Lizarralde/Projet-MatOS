@@ -21,23 +21,38 @@ import users.Teacher;
 import users.User;
 
 /**
+ * Store and load the users and materials list on xml files.
+ * 
  * @author Dorian LIZARRALDE
  * 
  */
 public class Data {
 
-    public static List<User> loadUsersList() {
+    /**
+     * Load the users list located in the location parameter.
+     * 
+     * @author Dorian LIZARRALDE
+     * @param location
+     *            The location of the xml file.
+     * @return
+     */
+    public static List<User> loadUsersList(String location) {
 
+        // Create a default Xstream.
         XStream xstream = new XStream(new DomDriver());
 
+        // Create an empty list which will hold the users list.
         List<User> users = null;
 
         try {
 
-            FileInputStream in = new FileInputStream("USERS_LIST.xml");
+            // Open a buffer.
+            FileInputStream in = new FileInputStream(location);
 
+            // Load the users list.
             users = (ArrayList<User>) xstream.fromXML(in);
 
+            // Close the buffer.
             in.close();
         } catch (FileNotFoundException e) {
 
@@ -50,26 +65,39 @@ public class Data {
         return users;
     }
 
-    public static void storeUserList() {
+    /**
+     * Store the users list in the location parameter.
+     * 
+     * @author Dorian LIZARRALDE
+     * @param location
+     *            The location of the xml file.
+     */
+    public static void storeUserList(String location) {
 
+        // Create an empty list of users.
         List<User> users = new ArrayList<User>();
 
+        // Add the users.
         users.add(new Student("LIZARRALDE", "Dorian", "SI3 - 2013"));
         users.add(new Student("PINEL", "Fabien", "SI3 - 2013"));
         users.add(new Student("SIMOND", "Hugo", "SI3 - 2013"));
         users.add(new Student("BENNI", "Benjamin", "SI3 - 2013"));
         users.add(new Student("SALMERON", "Quentin", "SI3 - 2013"));
-        users.add(new Student("LECA", "Pierre", "SI3 - 2013"));
+        users.add(new Teacher("THUAIRE", "Alain", "Java"));
         users.add(new Teacher("SARMIENTO", "Sergio", "Communication"));
 
+        // Create a default Xstream.
         XStream xstream = new XStream(new DomDriver());
 
         try {
 
-            FileOutputStream out = new FileOutputStream("USERS_LIST.xml");
+            // Open a buffer.
+            FileOutputStream out = new FileOutputStream(location);
 
+            // Store the users list.
             xstream.toXML(users, out);
 
+            // Close the buffer.
             out.close();
         } catch (FileNotFoundException e) {
 
@@ -80,18 +108,31 @@ public class Data {
         }
     }
 
-    public static List<MaterialQuantity> loadMaterialList() {
+    /**
+     * Load the materials list located in the location parameter.
+     * 
+     * @author Dorian LIZARRALDE
+     * @param location
+     *            The location of the xml file.
+     * @return
+     */
+    public static List<MaterialQuantity> loadMaterialsList(String location) {
 
+        // Create a default Xstream.
         XStream xstream = new XStream(new DomDriver());
 
+        // Create an empty list which will hold the materials list.
         List<MaterialQuantity> materials = null;
 
         try {
 
-            FileInputStream in = new FileInputStream("MATERIALS_LIST.xml");
+            // Open a buffer.
+            FileInputStream in = new FileInputStream(location);
 
+            // Load the materials list.
             materials = (ArrayList<MaterialQuantity>) xstream.fromXML(in);
 
+            // Close the buffer.
             in.close();
         } catch (FileNotFoundException e) {
 
@@ -104,10 +145,19 @@ public class Data {
         return materials;
     }
 
-    public static void storeMaterialList() {
+    /**
+     * Store the materials list in the location parameter.
+     * 
+     * @author Dorian LIZARRALDE
+     * @param location
+     *            The location of the xml file.
+     */
+    public static void storeMaterialsList(String location) {
 
+        // Create an empty list of materials.
         List<MaterialQuantity> materials = new ArrayList<MaterialQuantity>();
 
+        // Add the materials.
         materials.add(new MaterialQuantity(new Phone("HTC One",
                 "Description of the HTC One", TypeOS.ANDROID), 5));
         materials.add(new MaterialQuantity(new Casque("Dr Dre",
@@ -117,14 +167,18 @@ public class Data {
         materials.add(new MaterialQuantity(new Tablet("iPad",
                 "Description of the HTC One", TypeOS.IOS), 5));
 
+        // Create a default Xstream.
         XStream xstream = new XStream(new DomDriver());
 
         try {
 
-            FileOutputStream out = new FileOutputStream("MATERIALS_LIST.xml");
+            // Open the buffer.
+            FileOutputStream out = new FileOutputStream(location);
 
+            // Store the materials list.
             xstream.toXML(materials, out);
 
+            // Close the buffer
             out.close();
         } catch (FileNotFoundException e) {
 
@@ -135,9 +189,15 @@ public class Data {
         }
     }
 
+    /**
+     * Store the program's lists.
+     * 
+     * @author Dorian LIZARRLADE
+     * @param args
+     */
     public static void main(String[] args) {
 
-        storeUserList();
-        storeMaterialList();
+        storeUserList("./data/USERS_LIST.xml");
+        storeMaterialsList("./data/MATERIALS_LIST.xml");
     }
 }

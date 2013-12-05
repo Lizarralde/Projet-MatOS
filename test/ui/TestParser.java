@@ -18,49 +18,61 @@ public class TestParser {
 
     static Parser parser = new Parser();
 
+    /**
+     * @author Dorian LIZARRALDE
+     */
     @BeforeClass
     public static void setReader() {
 
         try {
 
-            parser.setReader(new FileInputStream("TEST_PARSER"));
+            parser.setReader(new FileInputStream("./data/TEST_PARSER.txt"));
         } catch (FileNotFoundException e) {
 
             e.printStackTrace();
         }
-        
+
         System.out.close();
     }
 
+    /**
+     * @author Dorian LIZARRALDE
+     */
     @Test
     public void testGetInput() {
 
         List<String> words = parser.getInput();
-        
+
         assertNotNull(words);
         assertTrue(words.isEmpty());
-        
+
         words = parser.getInput();
-        
+
         assertTrue(words.size() == 2);
-        
+
         assertEquals("LIZARRALDE", words.get(0));
         assertEquals("Dorian", words.get(1));
     }
-    
+
+    /**
+     * @author Dorian LIZARRALDE
+     */
     @Test
     public void testGetADate() {
-        
+
         GregorianCalendar calendar = parser.getADate();
-        
+
+        // Not null.
         assertNull(calendar);
-        
+
         calendar = parser.getADate();
-        
+
+        // Not null.
         assertNull(calendar);
-        
+
         calendar = parser.getADate();
-        
+
+        // Good data.
         assertEquals(2013, calendar.get(GregorianCalendar.YEAR));
         assertEquals(11, calendar.get(GregorianCalendar.MONTH));
         assertEquals(29, calendar.get(GregorianCalendar.DAY_OF_MONTH));

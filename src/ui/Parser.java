@@ -74,7 +74,7 @@ public class Parser {
 
     /**
      * Read user input and make a gregorian calendar of it. The format of the
-     * user input is DD/MM/YYYY.
+     * user input is dd/MM/yyyy.
      * 
      * @author Dorian LIZARRALDE & Fabien PINEL
      * @return A gregorian calendar based on the user input.

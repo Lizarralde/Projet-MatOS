@@ -13,6 +13,7 @@ public enum TypeOS {
     /**
      * Default constructor.
      * 
+     * @author Dorian LIZARRALDE
      * @param s
      */
     TypeOS(String name) {
@@ -20,10 +21,7 @@ public enum TypeOS {
         this.name = name;
     }
 
-    /**
-     * @see Object#toString()
-     * 
-     */
+    @Override
     public String toString() {
 
         return name;

@@ -24,11 +24,11 @@
     <forname>Quentin</forname>
     <year>SI3 - 2013</year>
   </users.Student>
-  <users.Student>
-    <name>LECA</name>
-    <forname>Pierre</forname>
-    <year>SI3 - 2013</year>
-  </users.Student>
+  <users.Teacher>
+    <name>THUAIRE</name>
+    <forname>Alain</forname>
+    <field>Java</field>
+  </users.Teacher>
   <users.Teacher>
     <name>SARMIENTO</name>
     <forname>Sergio</forname>

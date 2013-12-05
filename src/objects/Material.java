@@ -6,65 +6,78 @@ package objects;
  * 
  */
 public class Material {
-	private String	name, description;
 
-	public boolean equals(Material mat) {
-		return (mat.getName().equals(this.getName()));
-	}
+    private String name, description;
 
-	private int	empruntTimeMax, empruntTime;
+    private int empruntTimeMax, empruntTime;
 
-	public Material(String name, String description) {
-		this.name = name;
-		this.description = description;
-		this.empruntTime = 7;
-		this.empruntTimeMax = 200;
-	}
+    public Material(String name, String description) {
 
-	public Material(String name, String description, int dureeUsuelle) {
-		this.name = name;
-		this.description = description;
-		this.empruntTime = dureeUsuelle;
-		this.empruntTimeMax = 200;
-	}
+        this.name = name;
+        this.description = description;
+        this.empruntTime = 7;
+        this.empruntTimeMax = 200;
+    }
 
-	public Material(String name, String description, int dureeUsuelle,
-			int dureeMax) {
-		this.name = name;
-		this.description = description;
-		this.empruntTime = dureeUsuelle;
-		this.empruntTimeMax = dureeMax;
-	}
+    public Material(String name, String description, int dureeUsuelle) {
 
-	public String getName() {
-		return name;
-	}
+        this.name = name;
+        this.description = description;
+        this.empruntTime = dureeUsuelle;
+        this.empruntTimeMax = 200;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public Material(String name, String description, int dureeUsuelle,
+            int dureeMax) {
 
-	public String getDescription() {
-		return description;
-	}
+        this.name = name;
+        this.description = description;
+        this.empruntTime = dureeUsuelle;
+        this.empruntTimeMax = dureeMax;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public String getName() {
 
-	public int getDureeEmpruntMax() {
-		return empruntTimeMax;
-	}
+        return name;
+    }
 
-	public void setDureeEmpruntMax(int dureeEmpruntMax) {
-		this.empruntTimeMax = dureeEmpruntMax;
-	}
+    public void setName(String name) {
 
-	public int getDureeEmpruntUsuelle() {
-		return empruntTime;
-	}
+        this.name = name;
+    }
 
-	public void setDureeEmpruntUsuelle(int dureeEmpruntUsuelle) {
-		this.empruntTime = dureeEmpruntUsuelle;
-	}
+    public String getDescription() {
+
+        return description;
+    }
+
+    public void setDescription(String description) {
+
+        this.description = description;
+    }
+
+    public int getDureeEmpruntMax() {
+
+        return empruntTimeMax;
+    }
+
+    public void setDureeEmpruntMax(int dureeEmpruntMax) {
+
+        this.empruntTimeMax = dureeEmpruntMax;
+    }
+
+    public int getDureeEmpruntUsuelle() {
+
+        return empruntTime;
+    }
+
+    public void setDureeEmpruntUsuelle(int dureeEmpruntUsuelle) {
+
+        this.empruntTime = dureeEmpruntUsuelle;
+    }
+
+    public boolean equals(Material mat) {
+
+        return (mat.getName().equals(this.getName()));
+    }
 }

@@ -9,10 +9,15 @@ public class Student extends User {
     private String year;
 
     /**
+     * Default constructor.
      * 
+     * @author Dorian LIZARRALDE
      * @param name
+     *            Name of the student.
      * @param forname
+     *            Forname of the student.
      * @param year
+     *            Year of the student.
      */
     public Student(String name, String forname, String year) {
 
@@ -22,7 +27,9 @@ public class Student extends User {
     }
 
     /**
+     * Return the year of the student.
      * 
+     * @author Dorian LIZARRALDE
      * @return
      */
     public String getYear() {
@@ -31,8 +38,10 @@ public class Student extends User {
     }
 
     /**
+     * Set the year of the student.
      * 
-     * @param field
+     * @author Dorian LIZARRALDE
+     * @param year
      */
     public void setYear(String year) {
 
