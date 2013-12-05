@@ -11,279 +11,297 @@ import users.User;
 
 /**
  * Headquarter of the application. Identifie the user. Retrieve his reservation.
- * Make it
+ * Make it happened or not depend on the manager verification.
  * 
  * @author Dorian LIZARRALDE
  * 
  */
 public class Terminal {
 
-	private Parser	parser;
+    private Parser parser;
 
-	private User	user;
+    private User user;
 
-	private Stock	stock;
+    private Stock stock;
 
-	private Manager	manager;
+    private Manager manager;
 
-	/**
+    /**
+     * Default constructor.
      * 
+     * @author Dorian LIZARRALDE
      */
-	public Terminal() {
+    public Terminal() {
 
-		parser = new Parser();
-	}
+        parser = new Parser();
+    }
 
-	/**
+    /**
+     * Start the application. The user has to identifie himself to make a
+     * reservation.
      * 
+     * @author Dorian LIZARRALDE
      */
-	public void start(List<User> users, List<MaterialQuantity> mat) {
+    public void start(List<User> users, List<MaterialQuantity> mat) {
 
-		stock = new Stock(mat);
+        // Keep the default stock for futur use.
+        stock = new Stock(mat);
 
-		manager = new Manager(stock);
+        // Create a manager who will certificate the reservations.
+        manager = new Manager(stock);
 
-		welcome();
+        // Welcome
+        welcome();
 
-		if (getUser(users)) {
+        // Wait for the user to identifie himself.
+        while (!getUser(users)) {
 
-			System.out.println("You are now identified as " + user.getName()
-					+ " " + user.getForname());
-			theApplication();
-		} else {
+            System.out.println("Sorry, we were unable to find you.");
+        }
 
-			System.out.println("Sorry, we were unable to find you.");
-			this.start(users, mat);
-			// System.out.println("The application will close.");
-		}
-	}
+        // The user is now identified.
+        System.out.println("You are now identified as " + user.toString());
 
-	/**
-	 * 
-	 * @author fabien Pinel
-	 */
-	public void theApplication() {
-		System.out
-				.println("Type your command. If you need help, you can use the command 'help'");
+        // The user can make a reservation.
+        theApplication();
+    }
 
-		while (!processCommand(parser.getInput())) {
-
-		}
-
-		System.out.println("Thank you for using our application. Good bye.");
-	}
-
-	/**
+    /**
      * 
+     * @author fabien Pinel
      */
-	private void welcome() {
+    public void theApplication() {
+        System.out
+                .println("Type your command. If you need help, you can use the command 'help'");
 
-		System.out.println("Welcome to our reservation application.");
-		System.out
-				.println("What is your ID ? Type your name followed by your forname.");
-	}
+        while (!processCommand(parser.getInput())) {
 
-	/**
-	 * 
-	 * @param users
-	 * @return
-	 */
-	private boolean getUser(List<User> users) {
+        }
 
-		List<String> words = parser.getInput();
+        System.out.println("Thank you for using our application. Good bye.");
+    }
 
-		if (words.size() > 1) {
-
-			for (User user : users) {
-
-				if (user.getName().equalsIgnoreCase(words.get(0))
-						&& user.getForname().equalsIgnoreCase(words.get(1))) {
-
-					this.user = user;
-
-					return true;
-				}
-			}
-		}
-
-		return false;
-	}
-
-	/**
-	 * 
-	 * @param words
-	 * @return
-	 */
-	private boolean processCommand(List<String> words) {
-
-		boolean wantToQuit = false;
-
-		if (!words.isEmpty()) {
-
-			switch (words.get(0)) {
-
-			case "reserve":
-				reserve();
-				break;
-
-			case "help":
-				help();
-				break;
-
-			case "quit":
-				wantToQuit = true;
-				break;
-			}
-		}
-
-		return wantToQuit;
-	}
-
-	/**
+    /**
+     * Display a welcome text and ask for the user to identifie himself.
      * 
+     * @author Dorian LIZARRALDE
      */
-	private void help() {
+    public void welcome() {
 
-		System.out.println("You can use our application to reserve an object.");
-		System.out.println("Your command words are : reserve, help, quit");
-	}
+        System.out.println("Welcome to our reservation application.");
 
-	/**
-	 * THis method ask the user to choose an object in the list and is played
-	 * again and again until the choice is Okay
-	 * 
-	 * @author Fabien Pinel
-	 * @return
-	 */
-	public int chooseAnObject() {
-		// Display the list
-		System.out.println("Please write the number of the object you want: ");
-		System.out.println("" + stock.toString());
+        System.out
+                .println("What is your ID ? Type your name followed by your forname.");
+    }
 
-		int rep = Integer.parseInt(parser.getInput().get(0));
-		if (rep < 0 || rep > stock.getMaterialStock().size() - 1) {
-			// response incorrect
-			System.out.println("Incorrect. This number isn't correct.");
-			this.chooseAnObject();
-		}
-		return rep;
-	}
+    /**
+     * Get the ID of the user and try to find him on the users list. If the ID
+     * is on this list, the user is now identified.
+     * 
+     * @author Dorian LIZARRALDE
+     * @param users
+     * @return
+     */
+    public boolean getUser(List<User> users) {
 
-	/**
-	 * Ask for a quantity and play the method until the quantity is okay
-	 * 
-	 * @author Fabien Pinel
-	 * @param quantityAvailable
-	 * @return
-	 */
-	public int enterAQuantity(int quantityAvailable) {
-		int quant;
-		System.out.println("Enter the quantity you want :");
-		quant = Integer.parseInt(parser.getInput().get(0));
-		if (quant < 0 || quant > quantityAvailable) {
-			System.out.println("Incorrect. Please enter a correct number. ");
-			// incorrect
-			this.enterAQuantity(quantityAvailable);
-		}
-		return quant;
-	}
+        // Get the ID of the user.
+        List<String> words = parser.getInput();
 
-	/**
-	 * Ask for a begin date for the emprunt
-	 * 
-	 * @author Fabien Pinel
-	 * @return the date entered by the user
-	 */
-	public GregorianCalendar askABeginDate() {
-		System.out
-				.println("Enter the first day you want to have it : (dd/mm/yyyy)");
-		return parser.getADate();
-	}
+        // The user has to give his name and forname.
+        if (words.size() > 1) {
 
-	/**
-	 * Ask for an end date of the emprunt
-	 * 
-	 * @author Fabien Pinel
-	 * @return the date entered by the user
-	 */
-	public GregorianCalendar askAnEndDate() {
-		System.out
-				.println("Enter the last day you want to have it : (dd/mm/yyyy)");
-		return parser.getADate();
-	}
+            // Try to find him on the users list.
+            for (User user : users) {
 
-	/**
-	 * Check if the dates given are okay
-	 * 
-	 * @author Fabien Pinel
-	 * @param date1
-	 * @param date2
-	 * @return
-	 */
-	public boolean checkTheDates(GregorianCalendar date1,
-			GregorianCalendar date2) {
-		/*
-		 * En implémentant un GregorianCalendar il est initialisé à la date
-		 * courante
-		 */
-		GregorianCalendar dateDuJour = new GregorianCalendar();
-		if (date1.compareTo(dateDuJour) < 0 || date2.compareTo(dateDuJour) < 0) {
-			System.out
-					.println("Une des 2 dates se situe avant la date courante. Ce qui pose problème.");
-			return false;
-		}
-		if (date1.compareTo(date2) > 0) {
-			System.out.println("La date de début est après la date de fin.");
-			return false;
-		}
-		return true;
-	}
+                if (user.getName().equalsIgnoreCase(words.get(0))
+                        && user.getForname().equalsIgnoreCase(words.get(1))) {
 
-	/**
-	 * Propose to the user to do a reservation.
-	 * 
-	 * @author fabien Pinel
-	 */
-	private boolean reserve() {
-		int reponse;
-		GregorianCalendar date1 = null;
-		GregorianCalendar date2 = null;
-		int quantity;
-		boolean dateOk = false;
-		List<MaterialQuantity> mat = stock.getMaterialStock();
+                    // The user has been found.
+                    this.user = user;
 
-		// Load the materials from the stock
-		reponse = this.chooseAnObject();
-		quantity = this.enterAQuantity(mat.get(reponse).getQuantity());
-		while (!dateOk) {
-			date1 = askABeginDate();
-			date2 = askAnEndDate();
-			dateOk = this.checkTheDates(date1, date2);
-		}
+                    return true;
+                }
+            }
+        }
 
-		if (manager.isAvailable(mat.get(reponse), quantity, date1, date2)) {
-			System.out.println("L'objet est disponible.");
-			MaterialQuantity monObjetAReserver = new MaterialQuantity(mat.get(
-					reponse).getMat(), quantity);
-			Reservation res = manager.doReserve(user, monObjetAReserver, date1,
-					date2);
-			if (res == null) {
-				System.out.println("La réservation a échouée.");
-				return false;
-			} else {
-				stock.getReservList().add(res);
-				System.out
-						.println("Reservation effectuée.\nAffichage de la reservation :\n"
-								+ res.toString());
-				return true;
+        // The user has not been found.
+        return false;
+    }
 
-			}
-			// faire la réservation (ajout à la liste des reservation)
-		} else {
-			System.out
-					.println("L'objet demandé n'est malheureusement pas disponible.");
-			return false;
-			// indisponible -- retour au prompt
-		}
-	}
+    /**
+     * Execute the command associate the user input.
+     * 
+     * @author Dorian LIZARRALDE
+     * @param words
+     * @return
+     */
+    public boolean processCommand(List<String> words) {
+
+        boolean wantToQuit = false;
+
+        // The user has actually typed something.
+        if (!words.isEmpty()) {
+
+            switch (words.get(0)) {
+
+            // The user want to reserve something.
+            case "reserve":
+                reserve();
+                break;
+
+            // The user want to display the help.
+            case "help":
+                help();
+                break;
+
+            // The user want to quit.
+            case "quit":
+                wantToQuit = true;
+                break;
+            }
+        }
+
+        return wantToQuit;
+    }
+
+    /**
+     * Display an help text.
+     * 
+     * @author Dorian LIZARRALDE
+     */
+    public void help() {
+
+        System.out
+                .println("You can use our application to reserve a material.");
+
+        System.out.println("Your command words are : reserve, help, quit");
+    }
+
+    /**
+     * THis method ask the user to choose an object in the list and is played
+     * again and again until the choice is Okay
+     * 
+     * @author Fabien Pinel
+     * @return
+     */
+    public int chooseAnObject() {
+        // Display the list
+        System.out.println("Please write the number of the object you want: ");
+        System.out.println(stock.toString());
+
+        int rep = Integer.parseInt(parser.getInput().get(0));
+        if (rep < 0 || rep > stock.getMaterialStock().size() - 1) {
+            // response incorrect
+            System.out.println("Incorrect. This number isn't correct.");
+            this.chooseAnObject();
+        }
+        return rep;
+    }
+
+    /**
+     * Ask for a quantity and play the method until the quantity is okay
+     * 
+     * @author Fabien Pinel
+     * @param quantityAvailable
+     * @return
+     */
+    public int enterAQuantity(int quantityAvailable) {
+        int quant;
+        System.out.println("Enter the quantity you want :");
+        quant = Integer.parseInt(parser.getInput().get(0));
+        if (quant < 0 || quant > quantityAvailable) {
+            System.out.println("Incorrect. Please enter a correct number. ");
+            // incorrect
+            this.enterAQuantity(quantityAvailable);
+        }
+        return quant;
+    }
+
+    /**
+     * Ask for a date.
+     * 
+     * @author Fabien Pinel & Dorian LIZARRALDE
+     * @return the date entered by the user
+     */
+    public GregorianCalendar askADate(String whichOne) {
+
+        System.out.println(whichOne);
+
+        return parser.getADate();
+    }
+
+    /**
+     * Check if the dates given are okay
+     * 
+     * @author Fabien Pinel
+     * @param date1
+     * @param date2
+     * @return
+     */
+    public boolean checkTheDates(GregorianCalendar date1,
+            GregorianCalendar date2) {
+        /*
+         * En implémentant un GregorianCalendar il est initialisé à la date
+         * courante
+         */
+        GregorianCalendar dateDuJour = new GregorianCalendar();
+        if (date1.compareTo(dateDuJour) < 0 || date2.compareTo(dateDuJour) < 0) {
+            System.out
+                    .println("Une des 2 dates se situe avant la date courante. Ce qui pose problème.");
+            return false;
+        }
+        if (date1.compareTo(date2) > 0) {
+            System.out.println("La date de début est après la date de fin.");
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Propose to the user to do a reservation.
+     * 
+     * @author fabien Pinel
+     */
+    public boolean reserve() {
+        int reponse;
+        GregorianCalendar date1 = null;
+        GregorianCalendar date2 = null;
+        int quantity;
+        boolean dateOk = false;
+        List<MaterialQuantity> mat = stock.getMaterialStock();
+
+        // Load the materials from the stock
+        reponse = this.chooseAnObject();
+        quantity = this.enterAQuantity(mat.get(reponse).getQuantity());
+        while (!dateOk) {
+            date1 = askADate("Enter the first day you want to have it : (dd/mm/yyyy)");
+            date2 = askADate("Enter the last day you want to have it : (dd/mm/yyyy)");
+            dateOk = this.checkTheDates(date1, date2);
+        }
+
+        if (manager.isAvailable(mat.get(reponse), quantity, date1, date2)) {
+            System.out.println("L'objet est disponible.");
+            MaterialQuantity monObjetAReserver = new MaterialQuantity(mat.get(
+                    reponse).getMat(), quantity);
+            Reservation res = manager.doReserve(user, monObjetAReserver, date1,
+                    date2);
+            if (res == null) {
+                System.out.println("La réservation a échouée.");
+                return false;
+            } else {
+                stock.getReservList().add(res);
+                System.out
+                        .println("Reservation effectuée.\nAffichage de la reservation :\n"
+                                + res.toString());
+                return true;
+
+            }
+            // faire la réservation (ajout à la liste des reservation)
+        } else {
+            System.out
+                    .println("L'objet demandé n'est malheureusement pas disponible.");
+            return false;
+            // indisponible -- retour au prompt
+        }
+    }
 }
