@@ -128,39 +128,44 @@ public class Terminal {
 		System.out.println("Your command words are : reserve, help, quit");
 	}
 
+	public int chooseAnObject() {
+		// Display the list
+		System.out.println("Please write the number of the object you want: ");
+		System.out.println("" + stock.toString());
+
+		int rep = Integer.parseInt(parser.getInput().get(0));
+		if (rep < 0 || rep > stock.getMaterialStock().size() - 1) {
+			// response incorrect
+			System.out.println("Incorrect. This number isn't correct.");
+			this.chooseAnObject();
+		}
+		return rep;
+	}
+
+	public int enterAQuantity(int quantityAvailable) {
+		int quant;
+		System.out.println("Enter the quantity you want :");
+		quant = Integer.parseInt(parser.getInput().get(0));
+		if (quant < 0 || quant > quantityAvailable) {
+			System.out.println("Incorrect. Please enter a correct number. ");
+			// incorrect
+			this.enterAQuantity(quantityAvailable);
+		}
+		return quant;
+	}
+
 	/**
      * 
      */
-	private void reserve() {
-		String reponse;
+	private boolean reserve() {
+		int reponse;
 		GregorianCalendar date1;
 		GregorianCalendar date2;
 		int quantity;
 		List<MaterialQuantity> mat = stock.getMaterialStock();
 		// Load the materials from the stock
-
-		// Display the list
-		System.out
-				.println("Saisissez le numéro de l'objet que vous voulez emprunter:");
-		for (int i = 0; i < mat.size(); i++) {
-			System.out.println(i + ". " + mat.get(i).getMat().getName() + " ("
-					+ mat.get(i).getMat().getDescription() + ") - "
-					+ mat.get(i).getQuantity());
-			i++;
-		}
-		reponse = parser.getInput().get(0);
-		if (Integer.parseInt(reponse) < 0
-				|| Integer.parseInt(reponse) > mat.size()) {
-			// response incorrect, exception ??
-			System.out.println("Incorrect. This number isn't correct.");
-		}
-		System.out.println("Enter the quantity you want :");
-		quantity = Integer.parseInt(parser.getInput().get(0));
-		if (quantity < 0
-				|| quantity > mat.get(Integer.parseInt(reponse)).getQuantity()) {
-			System.out.println("Incorrect");
-			// incorrect, exception ?
-		}
+		reponse = this.chooseAnObject();
+		quantity = this.enterAQuantity(mat.get(reponse).getQuantity());
 
 		System.out
 				.println("Enter the first day you want to have it : (dd/mm/yyyy)");
@@ -168,31 +173,42 @@ public class Terminal {
 		System.out
 				.println("Enter the last day you want to have it : (dd/mm/yyyy)");
 		date2 = parser.getADate();
-		if (date1.compareTo(date2) > 0) {
+		/*
+		 * En implémentant un GregorianCalendar il est initialisé à la date
+		 * courante
+		 */
+		GregorianCalendar dateDuJour = new GregorianCalendar();
+		if (date1.compareTo(dateDuJour) < 0 || date2.compareTo(dateDuJour) < 0) {
 			System.out
-					.println("La date de début est après la date de fin.\nInversion des 2.");
-			GregorianCalendar date = date1;
-			date1 = date2;
-			date2 = date;
+					.println("Une des 2 dates se situe avant la date courante. Ce qui pose problème.");
+			return false;
 		}
-		if (man.isAvailable(mat.get(Integer.parseInt(reponse)), quantity,
-				date1, date2)) {
+		if (date1.compareTo(date2) > 0) {
+			System.out.println("La date de début est après la date de fin.");
+			return false;
+		}
+		if (man.isAvailable(mat.get(reponse), quantity, date1, date2)) {
 			System.out.println("L'objet est disponible.");
-			Reservation res = man.doReserve(user,
-					mat.get(Integer.parseInt(reponse)), date1, date2);
+			MaterialQuantity monObjetAReserver = new MaterialQuantity(mat.get(
+					reponse).getMat(), quantity);
+			Reservation res = man.doReserve(user, monObjetAReserver, date1,
+					date2);
 			if (res == null) {
 				System.out.println("La réservation a échouée.");
+				return false;
 			} else {
 				stock.getReservList().add(res);
 				System.out
 						.println("Reservation effectuée.\nAffichage de la reservation :\n"
 								+ res.toString());
+				return true;
 
 			}
 			// faire la réservation (ajout à la liste des reservation
 		} else {
 			System.out
 					.println("L'objet demandé n'est malheureusement pas disponible.");
+			return false;
 			// indisponible -- retour au prompt
 		}
 	}

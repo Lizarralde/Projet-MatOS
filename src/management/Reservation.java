@@ -52,10 +52,10 @@ public class Reservation {
 
 	public String toString() {
 		String strDate1 = startDate.get(GregorianCalendar.DAY_OF_MONTH) + "/"
-				+ startDate.get(GregorianCalendar.MONTH) + "/"
+				+ (startDate.get(GregorianCalendar.MONTH) + 1) + "/"
 				+ startDate.get(GregorianCalendar.YEAR);
 		String strDate2 = endDate.get(GregorianCalendar.DAY_OF_MONTH) + "/"
-				+ endDate.get(GregorianCalendar.MONTH) + "/"
+				+ (endDate.get(GregorianCalendar.MONTH) + 1) + "/"
 				+ endDate.get(GregorianCalendar.YEAR);
 		return ("User: " + user.getForname() + " " + user.getName()
 				+ "\t Object: " + materialQuant.getMat().getName()

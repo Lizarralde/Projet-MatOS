@@ -39,4 +39,14 @@ public class Stock {
 		this.materialStock = materialStock;
 	}
 
+	public String toString() {
+		String stock = new String();
+		for (int i = 0; i < this.materialStock.size(); i++) {
+			stock += (i + ". " + this.materialStock.get(i).getMat().getName()
+					+ " ("
+					+ this.materialStock.get(i).getMat().getDescription()
+					+ ") - " + this.materialStock.get(i).getQuantity() + "\n");
+		}
+		return stock;
+	}
 }

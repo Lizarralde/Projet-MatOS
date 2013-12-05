@@ -40,7 +40,8 @@ public class Manager {
 	 */
 	public boolean isAvailable(MaterialQuantity mat, int quantity,
 			GregorianCalendar startDate, GregorianCalendar endDate) {
-		GregorianCalendar day = startDate;
+		GregorianCalendar day = new GregorianCalendar();
+		day.setTimeInMillis(startDate.getTimeInMillis());
 		while (day.compareTo(endDate) <= 0) {
 			if (!isAvailableForThisDay(mat, quantity, day)) {
 				return false;
