@@ -178,43 +178,51 @@ public class Terminal {
     }
 
     /**
-     * THis method ask the user to choose an object in the list and is played
-     * again and again until the choice is Okay
+     * THis method asks the user to choose an object in the list and is played
+     * again and again until the choice is okay.
      * 
-     * @author Fabien Pinel
+     * @author Fabien Pinel & Dorian LIZARRALDE
      * @return
      */
     public int chooseAnObject() {
-        // Display the list
+
+        int i = -1;
+
         System.out.println("Please write the number of the object you want: ");
+
         System.out.println(stock.toString());
 
-        int rep = Integer.parseInt(parser.getInput().get(0));
-        if (rep < 0 || rep > stock.getMaterialStock().size() - 1) {
-            // response incorrect
-            System.out.println("Incorrect. This number isn't correct.");
-            this.chooseAnObject();
-        }
-        return rep;
+        do {
+
+            i = Integer.parseInt(parser.getInput().get(0));
+        } while (i < 0 || i > stock.getMaterialStock().size() - 1);
+
+        return i;
     }
 
     /**
-     * Ask for a quantity and play the method until the quantity is okay
+     * Ask for a quantity and play the method until the quantity is okay.
      * 
-     * @author Fabien Pinel
+     * @author Fabien Pinel & Dorian LIZARRALDE
      * @param quantityAvailable
      * @return
      */
     public int enterAQuantity(int quantityAvailable) {
-        int quant;
+
+        int quantity;
+
         System.out.println("Enter the quantity you want :");
-        quant = Integer.parseInt(parser.getInput().get(0));
-        if (quant < 0 || quant > quantityAvailable) {
-            System.out.println("Incorrect. Please enter a correct number. ");
-            // incorrect
-            this.enterAQuantity(quantityAvailable);
+
+        quantity = Integer.parseInt(parser.getInput().get(0));
+
+        if (quantity < 0 || quantity > quantityAvailable) {
+
+            System.out.println("Incorrect. Please enter a correct number.");
+
+            return enterAQuantity(quantityAvailable);
         }
-        return quant;
+
+        return quantity;
     }
 
     /**
