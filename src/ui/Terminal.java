@@ -58,6 +58,10 @@ public class Terminal {
 		}
 	}
 
+	/**
+	 * 
+	 * @author fabien Pinel
+	 */
 	public void theApplication() {
 		System.out
 				.println("Type your command. If you need help, you can use the command 'help'");
@@ -144,6 +148,13 @@ public class Terminal {
 		System.out.println("Your command words are : reserve, help, quit");
 	}
 
+	/**
+	 * THis method ask the user to choose an object in the list and is played
+	 * again and again until the choice is Okay
+	 * 
+	 * @author Fabien Pinel
+	 * @return
+	 */
 	public int chooseAnObject() {
 		// Display the list
 		System.out.println("Please write the number of the object you want: ");
@@ -158,6 +169,13 @@ public class Terminal {
 		return rep;
 	}
 
+	/**
+	 * Ask for a quantity and play the method until the quantity is okay
+	 * 
+	 * @author Fabien Pinel
+	 * @param quantityAvailable
+	 * @return
+	 */
 	public int enterAQuantity(int quantityAvailable) {
 		int quant;
 		System.out.println("Enter the quantity you want :");
@@ -173,7 +191,8 @@ public class Terminal {
 	/**
 	 * Ask for a begin date for the emprunt
 	 * 
-	 * @return
+	 * @author Fabien Pinel
+	 * @return the date entered by the user
 	 */
 	public GregorianCalendar askABeginDate() {
 		System.out
@@ -184,7 +203,8 @@ public class Terminal {
 	/**
 	 * Ask for an end date of the emprunt
 	 * 
-	 * @return
+	 * @author Fabien Pinel
+	 * @return the date entered by the user
 	 */
 	public GregorianCalendar askAnEndDate() {
 		System.out
@@ -192,6 +212,14 @@ public class Terminal {
 		return parser.getADate();
 	}
 
+	/**
+	 * Check if the dates given are okay
+	 * 
+	 * @author Fabien Pinel
+	 * @param date1
+	 * @param date2
+	 * @return
+	 */
 	public boolean checkTheDates(GregorianCalendar date1,
 			GregorianCalendar date2) {
 		/*
@@ -212,8 +240,10 @@ public class Terminal {
 	}
 
 	/**
-     * 
-     */
+	 * Propose to the user to do a reservation.
+	 * 
+	 * @author fabien Pinel
+	 */
 	private boolean reserve() {
 		int reponse;
 		GregorianCalendar date1 = null;
@@ -248,7 +278,7 @@ public class Terminal {
 				return true;
 
 			}
-			// faire la réservation (ajout à la liste des reservation
+			// faire la réservation (ajout à la liste des reservation)
 		} else {
 			System.out
 					.println("L'objet demandé n'est malheureusement pas disponible.");

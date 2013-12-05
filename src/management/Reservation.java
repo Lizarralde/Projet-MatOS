@@ -6,86 +6,94 @@ import java.util.GregorianCalendar;
 import objects.MaterialQuantity;
 import users.User;
 
+/**
+ * 
+ * @author fabien pinel
+ * 
+ */
 public class Reservation {
 
-    private User user;
+	private User				user;
 
-    private MaterialQuantity materialQuant;
+	private MaterialQuantity	materialQuant;
 
-    private GregorianCalendar startDate, endDate;
+	private GregorianCalendar	startDate, endDate;
 
-    public Reservation(User user, MaterialQuantity materialQuant,
-            GregorianCalendar start, GregorianCalendar end) {
+	public Reservation(User user, MaterialQuantity materialQuant,
+			GregorianCalendar start, GregorianCalendar end) {
 
-        this.setUser(user);
-        this.setMaterialQuantity(materialQuant);
-        this.setStartDate(start);
-        this.setEndDate(end);
-    }
+		this.setUser(user);
+		this.setMaterialQuantity(materialQuant);
+		this.setStartDate(start);
+		this.setEndDate(end);
+	}
 
-    public User getUser() {
+	public User getUser() {
 
-        return user;
-    }
+		return user;
+	}
 
-    public void setUser(User user) {
+	public void setUser(User user) {
 
-        this.user = user;
-    }
+		this.user = user;
+	}
 
-    public MaterialQuantity getMaterialQuantity() {
+	public MaterialQuantity getMaterialQuantity() {
 
-        return materialQuant;
-    }
+		return materialQuant;
+	}
 
-    public void setMaterialQuantity(MaterialQuantity materialQuant) {
+	public void setMaterialQuantity(MaterialQuantity materialQuant) {
 
-        this.materialQuant = materialQuant;
-    }
+		this.materialQuant = materialQuant;
+	}
 
-    public GregorianCalendar getStartDate() {
+	public GregorianCalendar getStartDate() {
 
-        return startDate;
-    }
+		return startDate;
+	}
 
-    public void setStartDate(GregorianCalendar startDate) {
+	public void setStartDate(GregorianCalendar startDate) {
 
-        this.startDate = startDate;
-    }
+		this.startDate = startDate;
+	}
 
-    public GregorianCalendar getEndDate() {
+	public GregorianCalendar getEndDate() {
 
-        return endDate;
-    }
+		return endDate;
+	}
 
-    public void setEndDate(GregorianCalendar endDate) {
+	public void setEndDate(GregorianCalendar endDate) {
 
-        this.endDate = endDate;
-    }
+		this.endDate = endDate;
+	}
 
-    /**
-     * Return a String which represents the calendar on the format dd/MM/yyyy.
-     * 
-     * @author Dorian LIZARRALDE
-     * @param calendar
-     *            A gregorian calendar.
-     * @return
-     */
-    private String calendarToString(GregorianCalendar calendar) {
+	/**
+	 * Return a String which represents the calendar on the format dd/MM/yyyy.
+	 * 
+	 * @author Dorian LIZARRALDE
+	 * @param calendar
+	 *            A gregorian calendar.
+	 * @return
+	 */
+	private String calendarToString(GregorianCalendar calendar) {
 
-        SimpleDateFormat formater = new SimpleDateFormat("dd/MM/yyyy");
+		SimpleDateFormat formater = new SimpleDateFormat("dd/MM/yyyy");
 
-        return formater.format(calendar.getTime());
-    }
+		return formater.format(calendar.getTime());
+	}
 
-    @Override
-    public String toString() {
+	/**
+	 * @author Fabien Pinel
+	 */
+	@Override
+	public String toString() {
 
-        return "User: " + user.toString() + "\tObject: "
-                + materialQuant.getMat().getName() + "\tQuantity: "
-                + materialQuant.getQuantity() + "\tDate d'emprunt: "
-                + calendarToString(startDate) + "\tDate de retour: "
-                + calendarToString(endDate) + ".";
-    }
+		return "User: " + user.toString() + "\tObject: "
+				+ materialQuant.getMat().getName() + "\tQuantity: "
+				+ materialQuant.getQuantity() + "\tDate d'emprunt: "
+				+ calendarToString(startDate) + "\tDate de retour: "
+				+ calendarToString(endDate) + ".";
+	}
 
 }

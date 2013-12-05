@@ -8,79 +8,89 @@ import management.Stock;
 import objects.MaterialQuantity;
 
 /**
- * @author Dorian LIZARRALDE
+ * @author Fabien Pinel
  * 
  */
 public class Manager {
 
-    private Stock stock;
+	private Stock	stock;
 
-    public Manager(Stock stock) {
+	public Manager(Stock stock) {
 
-        this.stock = stock;
-    }
+		this.stock = stock;
+	}
 
-    public Reservation doReserve(User user, MaterialQuantity mat,
-            GregorianCalendar startDate, GregorianCalendar endDate) {
+	/**
+	 * Create the reservation asked
+	 * 
+	 * @author Fabien Pinel
+	 * @param user
+	 * @param mat
+	 * @param startDate
+	 * @param endDate
+	 * @return
+	 */
+	public Reservation doReserve(User user, MaterialQuantity mat,
+			GregorianCalendar startDate, GregorianCalendar endDate) {
 
-        Reservation res = new Reservation(user, mat, startDate, endDate);
-        return res;
-    }
+		Reservation res = new Reservation(user, mat, startDate, endDate);
+		return res;
+	}
 
-    /**
-     * This method looks if the materiel specified is available for a given
-     * period.
-     * 
-     * @author Fabien Pinel
-     * @param mat
-     *            the material that want to be reserved
-     * @param startDate
-     *            the beginning of the emprunt
-     * @param endDate
-     *            the end of the emprunt
-     * @return true if the material is available during this period false in
-     *         other cases
-     */
-    public boolean isAvailable(MaterialQuantity mat, int quantity,
-            GregorianCalendar startDate, GregorianCalendar endDate) {
-        GregorianCalendar day = new GregorianCalendar();
-        day.setTimeInMillis(startDate.getTimeInMillis());
-        while (day.compareTo(endDate) <= 0) {
-            if (!isAvailableForThisDay(mat, quantity, day)) {
-                return false;
-            }
-            day.add(Calendar.DAY_OF_YEAR, 1);
-        }
-        return true;
-    }
+	/**
+	 * This method looks if the materiel specified is available for a given
+	 * period.
+	 * 
+	 * @author Fabien Pinel
+	 * @param mat
+	 *            the material that want to be reserved
+	 * @param startDate
+	 *            the beginning of the emprunt
+	 * @param endDate
+	 *            the end of the emprunt
+	 * @return true if the material is available during this period false in
+	 *         other cases
+	 */
+	public boolean isAvailable(MaterialQuantity mat, int quantity,
+			GregorianCalendar startDate, GregorianCalendar endDate) {
+		GregorianCalendar day = new GregorianCalendar();
+		day.setTimeInMillis(startDate.getTimeInMillis());
+		while (day.compareTo(endDate) <= 0) {
+			if (!isAvailableForThisDay(mat, quantity, day)) {
+				return false;
+			}
+			day.add(Calendar.DAY_OF_YEAR, 1);
+		}
+		return true;
+	}
 
-    /**
-     * This method looks if a certain quantity of material is available for a
-     * given date. It's private because only use by isAvailable
-     * 
-     * @author Fabien Pinel
-     * @param materialList
-     *            A list of material
-     * @param startDate
-     *            the beginning of the emprunt period
-     * @param endDate
-     *            the end of the emprunt period
-     * @return
-     */
-    private boolean isAvailableForThisDay(MaterialQuantity mat, int quantity,
-            GregorianCalendar day) {
+	/**
+	 * This method looks if a certain quantity of material is available for a
+	 * given date. It's private because only use by isAvailable
+	 * 
+	 * @author Fabien Pinel
+	 * @param materialList
+	 *            A list of material
+	 * @param startDate
+	 *            the beginning of the emprunt period
+	 * @param endDate
+	 *            the end of the emprunt period
+	 * @return
+	 */
+	private boolean isAvailableForThisDay(MaterialQuantity mat, int quantity,
+			GregorianCalendar day) {
 
-        int quantityAvailable = mat.getQuantity();
-        for (Reservation reserv : stock.getReservList()) {
-            if (reserv.getMaterialQuantity().getMat().equals(mat.getMat())) {
-                if (day.compareTo(reserv.getStartDate()) >= 0
-                        && day.compareTo(reserv.getEndDate()) <= 0) {
-                    // day is in the emprunt time
-                    quantityAvailable -= reserv.getMaterialQuantity()
-                            .getQuantity();
-                }
-            }
-        }
-        return (quantityAvailable >= quantity);
-    }
+		int quantityAvailable = mat.getQuantity();
+		for (Reservation reserv : stock.getReservList()) {
+			if (reserv.getMaterialQuantity().getMat().equals(mat.getMat())) {
+				if (day.compareTo(reserv.getStartDate()) >= 0
+						&& day.compareTo(reserv.getEndDate()) <= 0) {
+					// day is in the emprunt time
+					quantityAvailable -= reserv.getMaterialQuantity()
+							.getQuantity();
+				}
+			}
+		}
+		return (quantityAvailable >= quantity);
+	}
 }
