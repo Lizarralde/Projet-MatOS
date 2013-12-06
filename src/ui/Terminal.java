@@ -313,9 +313,9 @@ public class Terminal {
 
         while (!dateOk) {
 
-            startDate = askADate("Enter your start date. The format is dd/MM/yyyy");
+            startDate = askADate("Enter your start date. The format is dd/MM/yyyy.");
 
-            endDate = askADate("Enter your end date. The format is dd/MM/yyyy");
+            endDate = askADate("Enter your end date. The format is dd/MM/yyyy.");
 
             dateOk = this.checkTheDates(startDate, endDate);
         }
@@ -323,7 +323,7 @@ public class Terminal {
         if (manager.isAvailable(mat.get(reponse), quantity, startDate, endDate)) {
 
             System.out
-                    .println("The manager said that there is enough materials avaible for your resevation.");
+                    .println("The manager said that there are enough materials avaible for your reservation.");
 
             MaterialQuantity monObjetAReserver = new MaterialQuantity(mat.get(
                     reponse).getMat(), quantity);
