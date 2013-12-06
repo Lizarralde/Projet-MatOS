@@ -46,29 +46,34 @@ public class TestTerminal {
      */
     @Test
     public void theTest() {
-        
+
         System.out.close();
-        
-        List<User> users = Data
-                .loadUsersList("./data/TEST_USERS_LIST.xml");
-        
+
+        List<User> users = Data.loadUsersList("./data/TEST_USERS_LIST.xml");
+
         List<MaterialQuantity> materials = Data
                 .loadMaterialsList("./data/TEST_MATERIALS_LIST.xml");
-        
+
         terminal.start(users, materials);
-        
+
         assertNotNull(terminal.getUser());
         assertEquals("LIZARRALDE Dorian", terminal.getUser().toString());
-        
+
         assertEquals(3, terminal.chooseAnObject());
-        
+
         assertEquals(1, terminal.enterAQuantity(3));
-        
-        assertEquals(0, terminal.askADate("Test askDate").compareTo(new GregorianCalendar(1992, 8, 20)));
-        
+
+        assertEquals(
+                0,
+                terminal.askADate("Test askDate").compareTo(
+                        new GregorianCalendar(1992, 8, 20)));
+
         GregorianCalendar calendar = new GregorianCalendar();
-        
-        assertFalse(terminal.checkTheDates(new GregorianCalendar(1992, 8, 20), calendar));
-        assertFalse(terminal.checkTheDates(calendar, new GregorianCalendar(1992, 8, 20)));
-        assertTrue(terminal.checkTheDates(calendar, calendar));    }
+
+        assertFalse(terminal.checkTheDates(new GregorianCalendar(1992, 8, 20),
+                calendar));
+        assertFalse(terminal.checkTheDates(calendar, new GregorianCalendar(
+                1992, 8, 20)));
+        assertTrue(terminal.checkTheDates(calendar, calendar));
+    }
 }

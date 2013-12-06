@@ -52,7 +52,7 @@ public class Teacher extends User {
 
         this.field = field;
     }
-    
+
     @Override
     public Reservation doReserve(MaterialQuantity mat,
             GregorianCalendar startDate, GregorianCalendar endDate) {
