@@ -25,13 +25,13 @@
     <year>SI3 - 2013</year>
   </users.Student>
   <users.Teacher>
-    <name>THUAIRE</name>
-    <forname>Alain</forname>
+    <name>SANDER</name>
+    <forname>Peter</forname>
     <field>Java</field>
   </users.Teacher>
   <users.Teacher>
-    <name>SARMIENTO</name>
-    <forname>Sergio</forname>
-    <field>Communication</field>
+    <name>LITOVSKY</name>
+    <forname>Igor</forname>
+    <field>Java</field>
   </users.Teacher>
 </list>

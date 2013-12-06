@@ -49,6 +49,7 @@ public class Stock {
     /**
      * @author fabien Pinel
      */
+    @Override
     public String toString() {
 
         String stock = new String();
