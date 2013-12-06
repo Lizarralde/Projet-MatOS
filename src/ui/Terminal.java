@@ -71,6 +71,7 @@ public class Terminal {
      * @author fabien Pinel
      */
     public void theApplication() {
+
         System.out
                 .println("Type your command. If you need help, you can use the command 'help'");
 
@@ -192,9 +193,16 @@ public class Terminal {
 
         System.out.println(stock.toString());
 
+        List<String> words;
+
         do {
 
-            i = Integer.parseInt(parser.getInput().get(0));
+            words = parser.getInput();
+
+            if (!words.isEmpty()) {
+
+                i = Integer.parseInt(words.get(0));
+            }
         } while (i < 0 || i > stock.getMaterialStock().size() - 1);
 
         return i;
@@ -209,13 +217,18 @@ public class Terminal {
      */
     public int enterAQuantity(int quantityAvailable) {
 
-        int quantity;
+        int quantity = -1;
 
         System.out.println("Enter the quantity you want :");
 
-        quantity = Integer.parseInt(parser.getInput().get(0));
+        List<String> words = parser.getInput();
 
-        if (quantity < 0 || quantity > quantityAvailable) {
+        if (!words.isEmpty()) {
+
+            quantity = Integer.parseInt(words.get(0));
+        }
+
+        if (quantity <= 0 || quantity > quantityAvailable) {
 
             System.out.println("Incorrect. Please enter a correct number.");
 
@@ -233,83 +246,105 @@ public class Terminal {
      */
     public GregorianCalendar askADate(String whichOne) {
 
-        System.out.println(whichOne);
+        GregorianCalendar calendar;
 
-        return parser.getADate();
+        do {
+
+            System.out.println(whichOne);
+
+            calendar = parser.getADate();
+        } while (calendar == null);
+
+        return calendar;
     }
 
     /**
-     * Check if the dates given are okay
+     * Check if the dates given are okay.
      * 
-     * @author Fabien Pinel
-     * @param date1
-     * @param date2
+     * @author Fabien Pinel & Dorian LIZARRALDE
+     * @param startDate
+     * @param endDate
      * @return
      */
-    public boolean checkTheDates(GregorianCalendar date1,
-            GregorianCalendar date2) {
-        /*
-         * En implémentant un GregorianCalendar il est initialisé à la date
-         * courante
-         */
+    public boolean checkTheDates(GregorianCalendar startDate,
+            GregorianCalendar endDate) {
+
         GregorianCalendar dateDuJour = new GregorianCalendar();
-        if (date1.compareTo(dateDuJour) < 0 || date2.compareTo(dateDuJour) < 0) {
-            System.out
-                    .println("Une des 2 dates se situe avant la date courante. Ce qui pose problème.");
+        dateDuJour.set(GregorianCalendar.HOUR_OF_DAY, 0);
+        dateDuJour.set(GregorianCalendar.MINUTE, 0);
+        dateDuJour.set(GregorianCalendar.SECOND, 0);
+        dateDuJour.set(GregorianCalendar.MILLISECOND, 0);
+
+        if (startDate.compareTo(dateDuJour) < 0
+                || endDate.compareTo(dateDuJour) < 0
+                || startDate.compareTo(endDate) > 0) {
+
+            System.out.println("One or both of your parameters is/are invalid");
+
             return false;
         }
-        if (date1.compareTo(date2) > 0) {
-            System.out.println("La date de début est après la date de fin.");
-            return false;
-        }
+
         return true;
     }
 
     /**
      * Propose to the user to do a reservation.
      * 
-     * @author fabien Pinel
+     * @author fabien Pinel & Dorian LIZARRALDE
      */
     public boolean reserve() {
+
         int reponse;
-        GregorianCalendar date1 = null;
-        GregorianCalendar date2 = null;
+
+        GregorianCalendar startDate = null;
+
+        GregorianCalendar endDate = null;
+
         int quantity;
+
         boolean dateOk = false;
-        List<MaterialQuantity> mat = stock.getMaterialStock();
 
         // Load the materials from the stock
+        List<MaterialQuantity> mat = stock.getMaterialStock();
+
         reponse = this.chooseAnObject();
+
         quantity = this.enterAQuantity(mat.get(reponse).getQuantity());
+
         while (!dateOk) {
-            date1 = askADate("Enter the first day you want to have it : (dd/mm/yyyy)");
-            date2 = askADate("Enter the last day you want to have it : (dd/mm/yyyy)");
-            dateOk = this.checkTheDates(date1, date2);
+
+            startDate = askADate("Enter your start date. The format is dd/MM/yyyy");
+
+            endDate = askADate("Enter your end date. The format is dd/MM/yyyy");
+
+            dateOk = this.checkTheDates(startDate, endDate);
         }
 
-        if (manager.isAvailable(mat.get(reponse), quantity, date1, date2)) {
-            System.out.println("L'objet est disponible.");
+        if (manager.isAvailable(mat.get(reponse), quantity, startDate, endDate)) {
+
+            System.out
+                    .println("The manager said that there is enough materials avaible for your resevation.");
+
             MaterialQuantity monObjetAReserver = new MaterialQuantity(mat.get(
                     reponse).getMat(), quantity);
-            Reservation res = manager.doReserve(user, monObjetAReserver, date1,
-                    date2);
-            if (res == null) {
-                System.out.println("La réservation a échouée.");
-                return false;
-            } else {
-                stock.getReservList().add(res);
-                System.out
-                        .println("Reservation effectuée.\nAffichage de la reservation :\n"
-                                + res.toString());
-                return true;
 
-            }
-            // faire la réservation (ajout à la liste des reservation)
-        } else {
-            System.out
-                    .println("L'objet demandé n'est malheureusement pas disponible.");
-            return false;
-            // indisponible -- retour au prompt
+            Reservation res = manager.doReserve(user, monObjetAReserver,
+                    startDate, endDate);
+
+            stock.getReservList().add(res);
+
+            System.out.println("Reservation effectuée."
+                    + System.getProperty("line.separator")
+                    + "Affichage de la reservation :"
+                    + System.getProperty("line.separator") + res.toString());
+
+            return true;
+
         }
+
+        System.out
+                .println("The manager didn't find enough materials avaible for your reservation.");
+
+        return false;
     }
 }

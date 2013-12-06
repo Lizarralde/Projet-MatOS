@@ -33,8 +33,7 @@ public class Manager {
 	public Reservation doReserve(User user, MaterialQuantity mat,
 			GregorianCalendar startDate, GregorianCalendar endDate) {
 
-		Reservation res = new Reservation(user, mat, startDate, endDate);
-		return res;
+		return new Reservation(user, mat, startDate, endDate);
 	}
 
 	/**

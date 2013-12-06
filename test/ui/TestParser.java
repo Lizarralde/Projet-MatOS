@@ -73,8 +73,8 @@ public class TestParser {
         calendar = parser.getADate();
 
         // Good data.
-        assertEquals(2013, calendar.get(GregorianCalendar.YEAR));
-        assertEquals(11, calendar.get(GregorianCalendar.MONTH));
-        assertEquals(29, calendar.get(GregorianCalendar.DAY_OF_MONTH));
+        assertEquals(1992, calendar.get(GregorianCalendar.YEAR));
+        assertEquals(8, calendar.get(GregorianCalendar.MONTH));
+        assertEquals(20, calendar.get(GregorianCalendar.DAY_OF_MONTH));
     }
 }
