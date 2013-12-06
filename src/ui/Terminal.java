@@ -35,14 +35,23 @@ public class Terminal {
 
         parser = new Parser();
     }
-    
+
     /**
      * @author Dorian LIZARRALDE
      * @return
      */
     public Parser getParser() {
-        
+
         return parser;
+    }
+
+    /**
+     * @author Dorian LIZARRALDE
+     * @return
+     */
+    public User getUser() {
+
+        return user;
     }
 
     /**
@@ -63,7 +72,7 @@ public class Terminal {
         welcome();
 
         // Wait for the user to identifie himself.
-        while (!getUser(users)) {
+        while (!getID(users)) {
 
             System.out.println("Sorry, we were unable to find you.");
         }
@@ -112,7 +121,7 @@ public class Terminal {
      * @param users
      * @return
      */
-    public boolean getUser(List<User> users) {
+    public boolean getID(List<User> users) {
 
         // Get the ID of the user.
         List<String> words = parser.getInput();
@@ -284,8 +293,7 @@ public class Terminal {
         today.set(GregorianCalendar.SECOND, 0);
         today.set(GregorianCalendar.MILLISECOND, 0);
 
-        if (startDate.compareTo(today) < 0
-                || endDate.compareTo(today) < 0
+        if (startDate.compareTo(today) < 0 || endDate.compareTo(today) < 0
                 || startDate.compareTo(endDate) > 0) {
 
             System.out.println("One or both of your parameters is/are invalid");
