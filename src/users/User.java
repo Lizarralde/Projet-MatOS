@@ -1,5 +1,11 @@
 package users;
 
+import java.util.GregorianCalendar;
+
+import management.Reservation;
+
+import objects.MaterialQuantity;
+
 /**
  * @author Dorian LIZARRALDE
  * 
@@ -68,10 +74,27 @@ public class User {
 
         this.forname = forname;
     }
-    
+
     @Override
     public String toString() {
-        
+
         return getName() + " " + getForname();
+    }
+
+    /**
+     * Create the reservation associate to the user indacations. Some rules can
+     * apply on the validation of a reservation. A user who is not identified
+     * can't do a reservation.
+     * 
+     * @author Dorian LIZARRALDE
+     * @param mat
+     * @param startDate
+     * @param endDate
+     * @return
+     */
+    public Reservation doReserve(MaterialQuantity mat,
+            GregorianCalendar startDate, GregorianCalendar endDate) {
+
+        return null;
     }
 }

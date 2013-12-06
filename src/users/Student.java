@@ -1,5 +1,10 @@
 package users;
 
+import java.util.GregorianCalendar;
+
+import management.Reservation;
+import objects.MaterialQuantity;
+
 /**
  * @author Dorian LIZARRALDE
  * 
@@ -46,5 +51,24 @@ public class Student extends User {
     public void setYear(String year) {
 
         this.year = year;
+    }
+
+    @Override
+    public Reservation doReserve(MaterialQuantity mat,
+            GregorianCalendar startDate, GregorianCalendar endDate) {
+
+        GregorianCalendar today = new GregorianCalendar();
+
+        // A student can't make a reservation 7 days ahead.
+        if (((startDate.getTimeInMillis() - today.getTimeInMillis()) / (1000 * 60 * 60 * 24)) < 7) {
+
+            // A student can't make a reservation of more than 7 days.
+            if (((endDate.getTimeInMillis() - startDate.getTimeInMillis()) / (1000 * 60 * 60 * 24)) < 7) {
+
+                return new Reservation(this, mat, startDate, endDate);
+            }
+        }
+
+        return null;
     }
 }

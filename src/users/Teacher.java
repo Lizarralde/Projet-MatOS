@@ -1,5 +1,10 @@
 package users;
 
+import java.util.GregorianCalendar;
+
+import management.Reservation;
+import objects.MaterialQuantity;
+
 /**
  * @author Dorian LIZARRALDE
  * 
@@ -46,5 +51,12 @@ public class Teacher extends User {
     public void setField(String field) {
 
         this.field = field;
+    }
+    
+    @Override
+    public Reservation doReserve(MaterialQuantity mat,
+            GregorianCalendar startDate, GregorianCalendar endDate) {
+
+        return new Reservation(this, mat, startDate, endDate);
     }
 }

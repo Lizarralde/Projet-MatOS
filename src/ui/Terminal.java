@@ -35,6 +35,15 @@ public class Terminal {
 
         parser = new Parser();
     }
+    
+    /**
+     * @author Dorian LIZARRALDE
+     * @return
+     */
+    public Parser getParser() {
+        
+        return parser;
+    }
 
     /**
      * Start the application. The user has to identifie himself to make a
@@ -269,14 +278,14 @@ public class Terminal {
     public boolean checkTheDates(GregorianCalendar startDate,
             GregorianCalendar endDate) {
 
-        GregorianCalendar dateDuJour = new GregorianCalendar();
-        dateDuJour.set(GregorianCalendar.HOUR_OF_DAY, 0);
-        dateDuJour.set(GregorianCalendar.MINUTE, 0);
-        dateDuJour.set(GregorianCalendar.SECOND, 0);
-        dateDuJour.set(GregorianCalendar.MILLISECOND, 0);
+        GregorianCalendar today = new GregorianCalendar();
+        today.set(GregorianCalendar.HOUR_OF_DAY, 0);
+        today.set(GregorianCalendar.MINUTE, 0);
+        today.set(GregorianCalendar.SECOND, 0);
+        today.set(GregorianCalendar.MILLISECOND, 0);
 
-        if (startDate.compareTo(dateDuJour) < 0
-                || endDate.compareTo(dateDuJour) < 0
+        if (startDate.compareTo(today) < 0
+                || endDate.compareTo(today) < 0
                 || startDate.compareTo(endDate) > 0) {
 
             System.out.println("One or both of your parameters is/are invalid");
@@ -331,15 +340,25 @@ public class Terminal {
             Reservation res = manager.doReserve(user, monObjetAReserver,
                     startDate, endDate);
 
-            stock.getReservList().add(res);
+            if (res != null) {
 
-            System.out.println("Reservation effectuée."
-                    + System.getProperty("line.separator")
-                    + "Affichage de la reservation :"
-                    + System.getProperty("line.separator") + res.toString());
+                stock.getReservList().add(res);
 
-            return true;
+                System.out
+                        .println("Reservation effectuée."
+                                + System.getProperty("line.separator")
+                                + "Affichage de la reservation :"
+                                + System.getProperty("line.separator")
+                                + res.toString());
 
+                return true;
+            } else {
+
+                System.out
+                        .println("The manager said you are not able to do this reservation.");
+
+                return false;
+            }
         }
 
         System.out
